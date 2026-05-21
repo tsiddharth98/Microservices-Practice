@@ -10,6 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
+/*@ComponentScans({ @ComponentScan("com.eazybytes.accounts.controller") })
+@EnableJpaRepositories("com.eazybytes.accounts.repository")
+@EntityScan("com.eazybytes.accounts.model")*/
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
 @OpenAPIDefinition(
 		info = @Info(
@@ -23,7 +26,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 				),
 				license = @License(
 						name = "Apache 2.0",
-						url = "www.siddharthtiwari.com"
+						url = "http://localhost:8080/swagger-ui/index.html"
 				)
 		),
 		externalDocs = @ExternalDocumentation(
