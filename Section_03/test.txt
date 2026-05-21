@@ -1,1 +1,4 @@
-csdsecs
+git status
+git add .
+git commit -m "Your message"
+git push
