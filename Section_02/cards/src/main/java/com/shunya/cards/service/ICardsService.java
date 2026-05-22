@@ -8,24 +8,25 @@ import org.springframework.web.bind.annotation.*;
 public interface ICardsService {
 
     /**
-    * @param mobileNumber - mobile number registered for card
-    * */
-    public void createCard(String mobileNumber);
+     * @param mobileNumber - Mobile Number of the Customer
+     * */
+    void createCard(String mobileNumber);
 
     /**
-     * @param mobileNumber - mobile number registered for card
+     * @param mobileNumber -  Input mobile Number
+     * @return Card Details based on a given mobileNumber
      * */
-    public CardsDto fetchAllCards(String mobileNumber);
+    CardsDto fetchAllCards(String mobileNumber);
 
     /**
      * @param cardsDto - card dto object
      * @return a boolean indicating if the card update is successful or not
      * */
-    public boolean updateCard(CardsDto cardsDto);
+    boolean updateCard(CardsDto cardsDto);
 
     /**
-     * @param mobileNumber - mobile number registered for card
-     * @return a boolean indicating if the delete of card is successful or not
+     * @param mobileNumber - Input Mobile Number
+     * @return a boolean indicating if the delete of card details is successful or not
      * */
-    public boolean deleteCard(String mobileNumber);
+    boolean deleteCard(String mobileNumber);
 }

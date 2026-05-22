@@ -13,19 +13,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping(value = "/api/", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 @Validated
 @Tag(
-        name = "CRUD REST APIs for Cards in ApexBank",
-        description = "CRUD REST APIs in ApexBank to CREATE, UPDATE, FETCH and DELETE cards details"
+        name = "CRUD REST APIs for Card in ApexBank",
+        description = "CRUD REST APIs in ApexBank to CREATE, UPDATE, FETCH and DELETE card details"
 )
 public class CardsController {
 
@@ -33,36 +35,38 @@ public class CardsController {
 
     @PostMapping("/create")
     @Operation(
-            summary = "Create cards REST API",
-            description = "REST API to create a new card inside ApexBank"
+            summary = "Create Card REST API",
+            description = "REST API to create a new Card inside ApexBank"
     )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "201",
-                    description = "Http status CREATED"
+                    description = "HTTP status CREATED"
             ),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Http status INTERNAL SERVER ERROR",
+                    description = "HTTP status INTERNAL SERVER ERROR",
                     content = @Content(
                             schema = @Schema(implementation = ErrorResponseDto.class)
                     )
             )
     })
-    public ResponseEntity<ResponseDto> createCard(@Valid @RequestParam String mobileNumber) {
+    public ResponseEntity<ResponseDto> createCard(@Valid @RequestParam
+                                                      @Pattern(regexp = "(^$|[0-9]{10})", message = "mobile number must be of 10 digits!!")
+                                                      String mobileNumber) {
         iCardsService.createCard(mobileNumber);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(STATUS_201, MESSAGE_200));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(STATUS_201, MESSAGE_201));
     }
 
     @GetMapping("/fetch")
     @Operation(
-            summary = "Fetch cards REST API",
-            description = "REST API to fetch card inside ApexBank's account"
+            summary = "Fetch Card details REST API",
+            description = "REST API to fetch card details based on a mobile number"
     )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Http status CREATED"
+                    description = "Http status OK"
             ),
             @ApiResponse(
                     responseCode = "500",
@@ -72,20 +76,22 @@ public class CardsController {
                     )
             )
     })
-    public ResponseEntity<CardsDto> fetchAllCards(@Valid @RequestParam String mobileNumber) {
+    public ResponseEntity<CardsDto> fetchAllCards(@Valid @RequestParam
+                                                      @Pattern(regexp = "(^$|[0-9]{10})", message = "mobile number must be of 10 digits!!")
+                                                      String mobileNumber) {
         CardsDto cardsDto = iCardsService.fetchAllCards(mobileNumber);
         return ResponseEntity.status(HttpStatus.OK).body(cardsDto);
     }
 
     @PutMapping("/update")
     @Operation(
-            summary = "Update card REST API",
-            description = "REST API to update a card inside ApexBank"
+            summary = "Update card details REST API",
+            description = "REST API to update a card details based on a mobile number"
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "201",
-                    description = "Http status CREATED"
+                    responseCode = "200",
+                    description = "Http status OK"
             ),
             @ApiResponse(
                     responseCode = "417",
@@ -109,13 +115,13 @@ public class CardsController {
 
     @DeleteMapping("/delete")
     @Operation(
-            summary = "Delete cards REST API",
-            description = "REST API to delete a card inside ApexBank"
+            summary = "Delete card details REST API",
+            description = "REST API to delete a card details based on a mobile number"
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "201",
-                    description = "Http status CREATED"
+                    responseCode = "200",
+                    description = "Http status OK"
             ),
             @ApiResponse(
                     responseCode = "417",
@@ -129,7 +135,9 @@ public class CardsController {
                     )
             )
     })
-    public ResponseEntity<ResponseDto> deleteCard(@Valid @RequestParam String mobileNumber) {
+    public ResponseEntity<ResponseDto> deleteCard(@Valid @RequestParam
+                                                      @Pattern(regexp = "(^$|[0-9]{10})", message = "mobile number must be of 10 digits!!")
+                                                      String mobileNumber) {
 
         boolean isDeleted = iCardsService.deleteCard(mobileNumber);
         if (isDeleted)

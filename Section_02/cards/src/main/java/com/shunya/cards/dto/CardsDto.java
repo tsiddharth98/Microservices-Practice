@@ -1,9 +1,7 @@
 package com.shunya.cards.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,51 +10,52 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(
-        name = "Card",
+        name = "Cards",
         description = "Schema to hold card information"
 )
 public class CardsDto {
 
-    @NotEmpty(message = "Mobile number cannot be empty!!")
-    @Pattern(regexp = "(^$|[0-9]{10})", message = "mobile number must be of 10 digits!!")
+    @NotEmpty(message = "Mobile number cannot be null or empty!!")
+    @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be of 10 digits!!")
     @Schema(
-            description = "Mobile number registered to ApexBank Card",
+            description = "Mobile number of a customer",
             example = "2963548726"
     )
     private String mobileNumber;
 
-    @NotEmpty(message = "Card number cannot be empty!!")
+    @NotEmpty(message = "Card number cannot be null or empty!!")
+    @Pattern(regexp = "(^$|[0-9]{12})", message = "Card number must be of 12 digits!!")
     @Schema(
-            description = "Card number of ApexBank Card",
+            description = "Card number of a customer",
             example = "254312125867"
     )
     private String cardNumber;
 
-    @NotEmpty(message = "Card type cannot be empty!!")
+    @NotEmpty(message = "Card type cannot be null or empty!!")
     @Schema(
-            description = "Card type of ApexBank Card",
+            description = "Type of the Card",
             example = "Debit Card"
     )
     private String cardType;
 
-    @NotEmpty(message = "Total limit cannot be empty!!")
+    @Positive(message = "Total limit should be greater than zero!!")
     @Schema(
-            description = "Total limit of ApexBank Card",
+            description = "Total amount limit available against a Card",
             example = "1,00,000"
     )
-    private Integer totalLimit;
+    private int totalLimit;
 
-    @NotEmpty(message = "Amount used cannot be empty!!")
+    @PositiveOrZero(message = "Total amount used should be equal or greater than zero!!")
     @Schema(
-            description = "Amount used of ApexBank Card",
+            description = "Total amount used by a customer",
             example = "30,000"
     )
-    private Integer amountUsed;
+    private int amountUsed;
 
-    @NotEmpty(message = "Available amount cannot be empty!!")
+    @PositiveOrZero(message = "Total available amount should be equal or greater than zero!!")
     @Schema(
-            description = "Available amount in ApexBank Card",
+            description = "Total available amount against a Card",
             example = "70,000"
     )
-    private Integer availableAmount;
+    private int availableAmount;
 }

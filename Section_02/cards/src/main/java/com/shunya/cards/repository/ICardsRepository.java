@@ -14,6 +14,8 @@ public interface ICardsRepository extends JpaRepository<Cards, Long> {
 
     Optional<Cards> findByMobileNumber(String mobileNumber);
 
+    Optional<Cards> findByCardNumber(String cardNumber);
+
     @Transactional
     @Modifying
     void deleteByMobileNumber(String mobileNumber);

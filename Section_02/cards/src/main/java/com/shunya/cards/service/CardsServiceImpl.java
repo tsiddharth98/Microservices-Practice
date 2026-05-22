@@ -19,7 +19,7 @@ public class CardsServiceImpl implements ICardsService {
     private ICardsRepository cardsRepository;
 
     /**
-     * @param mobileNumber - mobile number registered for card
+     * @param mobileNumber - Mobile Number of the Customer
      *
      */
     @Override
@@ -29,17 +29,23 @@ public class CardsServiceImpl implements ICardsService {
                 .ifPresent((cards -> {
                     throw new CardAlreadyExistsException("Card already exist with given mobile number: "+mobileNumber);
                 }));
+        cardsRepository.save(createNewCard(mobileNumber));
+    }
 
-        Cards card = new Cards();
-        card.setMobileNumber(mobileNumber);
+    /**
+     * @param mobileNumber - Mobile Number of the Customer
+     * @return the new card details
+     */
+    private Cards createNewCard(String mobileNumber) {
+        Cards newCard = new Cards();
         long randomCardNumber = 100000000000L + new Random().nextInt(900000000);
-        card.setCardNumber(String.valueOf(randomCardNumber));
-        card.setCardType(DEBIT);
-        card.setTotalLimit(100000);
-        card.setAmountUsed(0);
-        card.setAvailableAmount(100000);
-
-        cardsRepository.save(card);
+        newCard.setCardNumber(Long.toString(randomCardNumber));
+        newCard.setMobileNumber(mobileNumber);
+        newCard.setCardType(CREDIT_CARD);
+        newCard.setTotalLimit(NEW_CARD_LIMIT);
+        newCard.setAmountUsed(0);
+        newCard.setAvailableAmount(NEW_CARD_LIMIT);
+        return newCard;
     }
 
     /**
@@ -58,20 +64,13 @@ public class CardsServiceImpl implements ICardsService {
     /**
      * @param cardsDto - card dto object
      * @return a boolean indicating if the card update is successful or not
-     *
-     */
+     * */
     @Override
     public boolean updateCard(CardsDto cardsDto) {
-        Cards card = cardsRepository.findByMobileNumber(cardsDto.getMobileNumber())
-                .orElseThrow(() -> new ResourceNotFoundException("Card", "Mobile Number", cardsDto.getMobileNumber()));
+        Cards card = cardsRepository.findByCardNumber(cardsDto.getCardNumber())
+                .orElseThrow(() -> new ResourceNotFoundException("Card", "Card Number", cardsDto.getCardNumber()));
 
-        card.setCardType(cardsDto.getCardType());
-        card.setCardNumber(cardsDto.getCardNumber());
-        card.setMobileNumber(cardsDto.getMobileNumber());
-        card.setTotalLimit(cardsDto.getTotalLimit());
-        card.setAmountUsed(cardsDto.getAmountUsed());
-        card.setAvailableAmount(cardsDto.getAvailableAmount());
-
+        CardsMapper.mapToCards(cardsDto, card);
         cardsRepository.save(card);
         return true;
     }
@@ -86,7 +85,7 @@ public class CardsServiceImpl implements ICardsService {
         Cards card = cardsRepository.findByMobileNumber(mobileNumber)
                 .orElseThrow(() -> new ResourceNotFoundException("Card", "Mobile Number", mobileNumber));
 
-        cardsRepository.deleteByMobileNumber(mobileNumber);
+        cardsRepository.deleteById(card.getCardId());
         return true;
     }
 }
