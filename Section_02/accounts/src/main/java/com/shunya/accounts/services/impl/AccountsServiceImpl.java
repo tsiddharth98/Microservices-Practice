@@ -1,4 +1,4 @@
-package com.shunya.accounts.services;
+package com.shunya.accounts.services.impl;
 
 import com.shunya.accounts.constants.AccountsConstants;
 import com.shunya.accounts.dto.AccountsDto;
@@ -11,6 +11,7 @@ import com.shunya.accounts.mapper.AccountsMapper;
 import com.shunya.accounts.mapper.CustomerMapper;
 import com.shunya.accounts.repository.AccountsRepositry;
 import com.shunya.accounts.repository.CustomerRepository;
+import com.shunya.accounts.services.IAccountsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

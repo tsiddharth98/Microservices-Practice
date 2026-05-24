@@ -1,4 +1,4 @@
-package com.shunya.cards.service;
+package com.shunya.cards.service.impl;
 
 import static com.shunya.cards.constants.CardsConstants.*;
 import com.shunya.cards.dto.CardsDto;
@@ -7,6 +7,7 @@ import com.shunya.cards.exception.CardAlreadyExistsException;
 import com.shunya.cards.exception.ResourceNotFoundException;
 import com.shunya.cards.mapper.CardsMapper;
 import com.shunya.cards.repository.ICardsRepository;
+import com.shunya.cards.service.ICardsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

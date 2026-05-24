@@ -62,19 +62,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponseDto);
     }
 
-    /**
-     * Customize the handling of {@link MethodArgumentNotValidException}.
-     * <p>This method delegates to {@link #handleExceptionInternal}.
-     *
-     * @param ex      the exception to handle
-     * @param headers the headers to be written to the response
-     * @param status  the selected response status
-     * @param request the current request
-     * @return a {@code ResponseEntity} for the response to use, possibly
-     * {@code null} when the response is already committed
-     */
     @Override
-    protected @Nullable ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         Map<String, String> validationErrors = new HashMap<>();
         List<ObjectError> validationErrorList = ex.getBindingResult().getAllErrors();
 
