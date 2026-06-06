@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+
+build:
+  version: "2.0"
+
+accounts:
+  message: "Welcome to ApexBank accounts related QA APIs"
+  contactDetails:
+    name: "Vijay Jamadar - QA Lead"
+    email: "vijayj@ApexBank.com"
+  onCallSupport:
+    -(666) 265-3765
+    -(666) 734-8371
