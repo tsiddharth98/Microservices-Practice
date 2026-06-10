@@ -1,13 +1,8 @@
-spring:
-  config:
-    activate:
-      on-profile: "prod"
-
 build:
   version: "1.0"
 
-cards:
-  message: "Welcome to ApexBank cards related Prod APIs"
+accounts:
+  message: "Welcome to ApexBank accounts related Prod APIs"
   contactDetails:
     name: "Pravin Barate - Product Owner"
     email: "pravinb@ApexBank.com"

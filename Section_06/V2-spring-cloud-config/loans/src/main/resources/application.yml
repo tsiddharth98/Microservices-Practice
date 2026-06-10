@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: loans
+  profiles:
+    active: "prod"
   h2:
     console:
       enabled: true
@@ -18,21 +20,15 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.H2Dialect
   config:
-    import:
-      - "application_prod.yml"
-      - "application_qa.yml"
-  profiles:
-    active: "qa"
+    import: "configserver:http://localhost:8071/"
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: "guest"
+    password: "guest"
 
-build:
-  version: "3.0"
-
-loans:
-  message: "Welcome to ApexBank loans related local APIs"
-  contactDetails:
-    name: "JohnDoe - Developer"
-    email: "john@ApexBank.com"
-  onCallSupport:
-    -(555) 555-1234
-    -(555) 523-1345
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
